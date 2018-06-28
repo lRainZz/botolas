@@ -221,6 +221,8 @@ function sendMessageOnTextFilter($text) {
         
         if ($dolasBitch == 1) {
             sendPhoto($dataHelper->olasBitchPic);
+        } elseif ($dolasBitch % 5 == 0) {
+            sendPhoto($dataHelper->getTomPicture, 'schnico wann merkst eig dass es niemanden tangiert');
         }
     }
 	
