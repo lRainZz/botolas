@@ -22,7 +22,8 @@ $INFO =
 	. 'Botolas vers. 1.08 ' . PHP_EOL . ' + Last change: generate md5 sum of files'. PHP_EOL
 	. 'Botolas vers. 1.09 ' . PHP_EOL . ' + Last change: generate sha1 sum of files'. PHP_EOL
 	. 'Botolas vers. 1.10 ' . PHP_EOL . ' + Last change: tweetolas added'. PHP_EOL
-	. 'Botolas vers. 1.11 ' . PHP_EOL . ' + Last change: Embraced DSGVO, only chat able to use the bot is ' . PHP_EOL . '                "TIF15a Wurst Käse Bier Schnaps"';
+    . 'Botolas vers. 1.11 ' . PHP_EOL . ' + Last change: Embraced DSGVO, only chat able to use the bot is ' . PHP_EOL . '                "TIF15a Wurst Käse Bier Schnaps"' . PHP_EOL
+    . 'Botolas vers. 1.12 ' . PHP_EOL . ' + Last change: Added corona help';
 
 $dataHelper = new dataHelper();
 $API_CALLS  = 'https://api.telegram.org/bot' . $dataHelper->API_KEY;
@@ -128,6 +129,7 @@ ricarda - sends a meaningless message
 md5 - genrates md5 sums of files
 sha1 - generates sha1 sums of files
 tweetolas - send a sweetolas tweetolas
+corona - sends corona help
 */
 
 	switch($command){
@@ -154,6 +156,7 @@ tweetolas - send a sweetolas tweetolas
 						.'/tom'. PHP_EOL
 						.'/tilt'. PHP_EOL
                         .'/ricarda'. PHP_EOL
+                        .'/corona' . PHP_EOL
                         .'drag and drop a file with "/md5" as start of caption'. PHP_EOL
                         .'drag and drop a file with "/sha1" as start of caption');
 			break;
@@ -170,14 +173,17 @@ tweetolas - send a sweetolas tweetolas
 			sendPhoto($dataHelper->triggeredPic);
 			break;
 		case '/ricarda':
-			sendRicarda();
+            sendPhoto($dataHelper->ricardaPic, $dataHelper->ricardaText);
             break;
         case '/md5':
             sendMd5();
             break;
 		case '/tweetolas':
 			sendPhoto($dataHelper->tweetolas);
-			break;
+            break;
+        case '/corona':
+            sendPhoto($dataHelper->coronaPic);
+            break;
 		default:
 			sendMessageOnTextFilter($text);
 	}
@@ -193,11 +199,6 @@ if(isset($inline_text) && isset($inline_id) && $inline_text !== '') {
         . '&results=' . createInlineAnswerSingleText(dolas($inline_text))
         . '&cache_time=0'
     );
-}
-
-function sendRicarda() {
-    global $dataHelper;
-	sendPhoto($dataHelper->ricardaPic, $dataHelper->ricardaText);
 }
 
 function sendMessageOnTextFilter($text) {
